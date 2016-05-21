@@ -3,18 +3,32 @@ import webpack from 'webpack';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
+var env = process.env.NODE_ENV;
+
+var PATHS = {
+	app: path.join(__dirname, 'app'),
+	build: path.join(__dirname, 'dist')
+};
+
 var HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
-	template: __dirname + '/app/index.html',
+	template: PATHS.app + '/index.html',
 	filename: 'index.html',
 	inject: 'body'
 });
 
-export default {
+var productionPlugin = new webpack.DefinePlugin({
+	'process.env': {
+		NODE_ENV: JSON.stringify(env),
+		__DEV__: env == 'production'
+	}
+});
+
+var base = {
 	entry: [
-		__dirname + '/app/index.js'
+		PATHS.app
 	],
 	output: {
-		path: __dirname + '/dist',
+		path: PATHS.build,
 		filename: 'index_bundle.js'
 	},
 	module: {
@@ -34,3 +48,25 @@ export default {
 		HTMLWebpackPluginConfig
 	]
 }
+
+
+const developmentConfig = {
+  devtool: 'cheap-module-inline-source-map',
+  devServer: {
+    contentBase: PATHS.build,
+    hot: true,
+    inline: true,
+    progress: true,
+  },
+  plugins: [HTMLWebpackPluginConfig, new webpack.HotModuleReplacementPlugin()]
+}
+
+const productionConfig = {
+  plugins: [
+  	HTMLWebpackPluginConfig,
+  	productionPlugin
+  ]
+}
+
+export default Object.assign({}, base, env == 'production' ? productionConfig : developmentConfig);
+
