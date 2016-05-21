@@ -1,18 +1,15 @@
-var path = require('path');
-var webpack = require('webpack');
-var HTMLWebpackPlugin = require('html-webpack-plugin');
+import path from 'path';
+import webpack from 'webpack';
+import HTMLWebpackPlugin from 'html-webpack-plugin';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
+
 var HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
 	template: __dirname + '/app/index.html',
 	filename: 'index.html',
 	inject: 'body'
 });
 
-function getSomething(){
-	console.log("asdasdasdasdasd", process.env.npm_lifecycle_event);
-	console.log(process.env.NODE_ENV);
-}
-
-module.exports = {
+export default {
 	entry: [
 		__dirname + '/app/index.js'
 	],
@@ -37,5 +34,3 @@ module.exports = {
 		HTMLWebpackPluginConfig
 	]
 }
-
-getSomething();
