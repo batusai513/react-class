@@ -3,6 +3,7 @@ import React from 'react';
 export default React.createClass({
 	displayName: 'movie',
 	render(){
+		console.log(this.props);
 		return (
 			<article>
 				<h1>Pelicula {this.props.params.id}</h1>

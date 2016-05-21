@@ -54,7 +54,12 @@ var App = React.createClass({
 										</div>
 										<div className="media-body">
 											<h2 className="h4">
-												<Link to={{pathname: "/movie/" + movie.id, query: {hola: 'mundo'}}}>
+												{/*<Link to="/movie/342633274?hola=mundo">asdasd</Link>*/}
+												<Link to={
+													{
+														pathname: "/movie/" + movie.id,
+														query: {hola: 'mundo'}}
+												}>
 													{movie.title} <small>({movie.release_date})</small>
 												</Link>
 											</h2>
