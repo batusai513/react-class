@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import {Link} from 'react-router';
 
 var App = React.createClass({
 	displayName: 'App',
@@ -12,14 +13,12 @@ var App = React.createClass({
 		console.log("will mount");
 	},
 	componentDidMount(){
-		//"http://api.themoviedb.org/3/search/movie?query=" + title + "&api_key=82d75a47af09b78b447e7ef4a54265a2"
 		var _this = this;
 		axios.get('http://api.themoviedb.org/3/search/movie?query=hitch&api_key=82d75a47af09b78b447e7ef4a54265a2')
 			.then(function(response){
 				return response.data.results;
 			})
 			.then(function(movies){
-				console.log(movies);
 				return _this.setState({movies: movies});
 			})
 			.catch(err => console.error(err));
@@ -54,7 +53,11 @@ var App = React.createClass({
 											<img src={`http://image.tmdb.org/t/p/w185${movie.poster_path}`} alt="" />
 										</div>
 										<div className="media-body">
-											<h2 className="h4">{movie.title} <small>({movie.release_date})</small></h2>
+											<h2 className="h4">
+												<Link to={{pathname: "/movie/" + movie.id, query: {hola: 'mundo'}}}>
+													{movie.title} <small>({movie.release_date})</small>
+												</Link>
+											</h2>
 											<p>{movie.overview}</p>
 										</div>
 									</div>
